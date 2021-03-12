@@ -29,6 +29,11 @@ Additional CI/CD functionality include:
 * Config files for easy integration and deployment with Heroku
 
 # Usage
+Prior to any usage, you should learn the concepts of 
+[Lerna](https://github.com/lerna/lerna) as the whole monorepo revolves 
+around this library. Otherwise if you don't, you may not fully understand 
+the structure of the monorepo and how it operates. 
+
 1. Clone the repo or simply paste all the files into an existing or newly created repo
 2. Run `yarn install`
 3. Run `yarn bootstrap`
