@@ -1,6 +1,15 @@
 # Boilerplate Mono-repo in TypeScript with Create React App and Node.js
 A boilerplate for a fullstack monorepo in TypeScript with Create React App on the client, and Node.js (express) on the server. Uses Lerna for monorepo functionality.
 
+Based off https://github.com/michaljach/modern-monorepo-boilerplate
+
+This was created because the above boilerplate:
+1. Doesn't include a template package for a Node.js server
+2. Doesn't include GitHub Action CI/CD integrations
+3. Doesn't include built-in Heroku deployment configurations
+
+# Stack and features
+
 Main technologies in this stack included:
 * [TypeScript](https://github.com/microsoft/TypeScript)
 * [Create React App](https://github.com/facebook/create-react-app)
@@ -11,6 +20,7 @@ Additional technologies include:
 * Eslint
 * Jest
 * Prettier
+* Nodemon
 
 For the server side, we are using Express, but that can be easily swapped out for other frameworks if needed.
 
@@ -20,7 +30,45 @@ Additional CI/CD functionality include:
 
 # Usage
 1. Clone the repo or simply paste all the files into an existing or newly created repo
-2. 
+2. Run `yarn install`
+3. Run `yarn bootstrap`
+4. Run `yarn start`
+
+It should then proceed to open a new window in your browser on 
+`localhost:3000` where you should see a working page. If the client 
+successfully connected to the server, you should see a `Hello from server!` 
+text appear below the title. If it's stuck on `Loading...`, then the client 
+somehow can't access the server.
+
+## Future usage
+After the initial setup, you can run the other commands for additional 
+functionality.
+
+### `yarn build`
+The build script can be called manually to build all the packages and create 
+output JavaScript files based on the TypeScript files. The output files are 
+generated in each package, in a `build/` folder.
+
+This is also called automatically when needed during CI/CD.
+
+### `yarn start`
+When doing development, you'll be running this as usual. This should run all 
+the packages together, where you'll have both the client and server deployed
+at the same time. The client can then interact with the server.
+
+The client runs on `localhost:3000`. The server runs on `localhost:3001` but 
+will only work if the project was built at least once before with `yarn 
+build` (see above). Checking the server gives you an idea of how it will 
+look/behave during actual deployment. Create React App hot reloading will 
+only work on port `3000`.
+
+Development UX was considered into this monorepo, so that any changes to the 
+client or server should automatically build and you can see live changes in 
+the browser. Client hot reloading is handled by Create React App, whereas 
+server reloading is handled by Nodemon.
+
+### `yarn test`
+Tests for all the packages can be run at any time with this command.
 
 # Use cases for this boilerplate
 This boilerplate was originally intended to be used for a "fullstack" client for a web application. I needed a way to have both the front end code (React) be in the same repo as the server code (middleware GraphQL client, Apollo). My "client server" is a server that primarily handled database interactions on behalf of the database itself, that served the web app (client). Thus I required a monorepo to put the two original repos (client + server) together as they require each other for deployment.
@@ -62,3 +110,10 @@ Naturally, if you aren't going to use Heroku, and will deploy this manually with
 
 ## 3. TypeScript is required
 I originally made this with the intention to work with TypeScript. As far as I'm concerned, there isn't any easy way to adjust this monorepo such that it'd work without TypeScript (vanilla JavaScript). I suppose you could just write normal JavaScript in the `.ts` files as TypeScript is a superset of JavaScript. Or you can instead learn TypeScript, which I think is the better option since it comes with more features and makes code completion and refactoring easier.
+
+## 4. The build script for the server may fail if on Windows
+The build script of the server is called automatically when the whole 
+monorepo's build script is called (via `yarn build` in the root directory).
+The command `rm -rf build/` is called prior to compiling the TypeScript 
+files to clean the `build/` folder of old files. This command may not work 
+on Windows.

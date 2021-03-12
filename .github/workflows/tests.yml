@@ -1,0 +1,16 @@
+name: Tests
+on:
+  push:
+    branches:
+      - '**' # Ignore all tags, otherwise tests will run twice on release
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Install modules
+        run: yarn
+      - name: Run tests
+        run: yarn test
+        env:
+          CI: true
