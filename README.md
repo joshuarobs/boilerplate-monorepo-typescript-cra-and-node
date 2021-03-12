@@ -8,6 +8,21 @@ This was created because the above boilerplate:
 2. Doesn't include GitHub Action CI/CD integrations
 3. Doesn't include built-in Heroku deployment configurations
 
+# Contents
+- [Stack and features](#stack-and-features)
+- [Usage](#usage)
+    - [Future usage](#future-usage)
+        - [`yarn build`](#yarn-build)
+        - [`yarn start`](#yarn-start)
+        - [`yarn test`](#yarn-test)
+    - [CI/CD with Heroku](#cicd-with-heroku)
+- [Use cases for this boilerplate](#use-cases-for-this-boilerplate)
+- [Limitations](#limitations)
+    - [1. Uses Lerna and yarn for monorepo functionality](#1-uses-lerna-and-yarn-for-monorepo-functionality)
+    - [2. Heroku can only deploy 1 package](#2-heroku-can-only-deploy-1-package)
+    - [3. TypeScript is required](#3-typescript-is-required)
+    - [4. The build script for the server may fail if on Windows](#4-the-build-script-for-the-server-may-fail-if-on-windows)
+
 # Stack and features
 
 Main technologies in this stack included:
@@ -28,52 +43,62 @@ Additional CI/CD functionality include:
 * Automated testing on commits (via GitHub Actions)
 * Config files for easy integration and deployment with Heroku
 
+When deployed to Heroku, the app hosted is the Node.js server, that when
+connected to, serves the client and allows usage of the client app on the cloud.
+
 # Usage
-Prior to any usage, you should learn the concepts of 
-[Lerna](https://github.com/lerna/lerna) as the whole monorepo revolves 
-around this library. Otherwise if you don't, you may not fully understand 
-the structure of the monorepo and how it operates. 
+Prior to any usage, you should learn the concepts of
+[Lerna](https://github.com/lerna/lerna) as the whole monorepo revolves
+around this library. Otherwise if you don't, you may not fully understand
+the structure of the monorepo and how it operates.
 
 1. Clone the repo or simply paste all the files into an existing or newly created repo
 2. Run `yarn install`
 3. Run `yarn bootstrap`
 4. Run `yarn start`
 
-It should then proceed to open a new window in your browser on 
-`localhost:3000` where you should see a working page. If the client 
-successfully connected to the server, you should see a `Hello from server!` 
-text appear below the title. If it's stuck on `Loading...`, then the client 
+It should then proceed to open a new window in your browser on
+`localhost:3000` where you should see a working page. If the client
+successfully connected to the server, you should see a `Hello from server!`
+text appear below the title. If it's stuck on `Loading...`, then the client
 somehow can't access the server.
 
 ## Future usage
-After the initial setup, you can run the other commands for additional 
+After the initial setup, you can run the other commands for additional
 functionality.
 
 ### `yarn build`
-The build script can be called manually to build all the packages and create 
-output JavaScript files based on the TypeScript files. The output files are 
+The build script can be called manually to build all the packages and create
+output JavaScript files based on the TypeScript files. The output files are
 generated in each package, in a `build/` folder.
 
 This is also called automatically when needed during CI/CD.
 
 ### `yarn start`
-When doing development, you'll be running this as usual. This should run all 
+When doing development, you'll be running this as usual. This should run all
 the packages together, where you'll have both the client and server deployed
 at the same time. The client can then interact with the server.
 
-The client runs on `localhost:3000`. The server runs on `localhost:3001` but 
-will only work if the project was built at least once before with `yarn 
-build` (see above). Checking the server gives you an idea of how it will 
-look/behave during actual deployment. Create React App hot reloading will 
+The client runs on `localhost:3000`. The server runs on `localhost:3001` but
+will only work if the project was built at least once before with `yarn
+build` (see above). Checking the server gives you an idea of how it will
+look/behave during actual deployment. Create React App hot reloading will
 only work on port `3000`.
 
-Development UX was considered into this monorepo, so that any changes to the 
-client or server should automatically build and you can see live changes in 
-the browser. Client hot reloading is handled by Create React App, whereas 
+Development UX was considered into this monorepo, so that any changes to the
+client or server should automatically build and you can see live changes in
+the browser. Client hot reloading is handled by Create React App, whereas
 server reloading is handled by Nodemon.
 
 ### `yarn test`
 Tests for all the packages can be run at any time with this command.
+
+## CI/CD with Heroku
+This project can be automatically deployed on a Heroku application. Simply
+head to your Heroku app, go to the `Deploy` tab, then enable Automatic
+Deploys. Tick the `Wait for CI to pass before deploy` option too.
+
+By default this will deploy the `server/` package on the app.
 
 # Use cases for this boilerplate
 This boilerplate was originally intended to be used for a "fullstack" client for a web application. I needed a way to have both the front end code (React) be in the same repo as the server code (middleware GraphQL client, Apollo). My "client server" is a server that primarily handled database interactions on behalf of the database itself, that served the web app (client). Thus I required a monorepo to put the two original repos (client + server) together as they require each other for deployment.
@@ -117,8 +142,8 @@ Naturally, if you aren't going to use Heroku, and will deploy this manually with
 I originally made this with the intention to work with TypeScript. As far as I'm concerned, there isn't any easy way to adjust this monorepo such that it'd work without TypeScript (vanilla JavaScript). I suppose you could just write normal JavaScript in the `.ts` files as TypeScript is a superset of JavaScript. Or you can instead learn TypeScript, which I think is the better option since it comes with more features and makes code completion and refactoring easier.
 
 ## 4. The build script for the server may fail if on Windows
-The build script of the server is called automatically when the whole 
+The build script of the server is called automatically when the whole
 monorepo's build script is called (via `yarn build` in the root directory).
-The command `rm -rf build/` is called prior to compiling the TypeScript 
-files to clean the `build/` folder of old files. This command may not work 
+The command `rm -rf build/` is called prior to compiling the TypeScript
+files to clean the `build/` folder of old files. This command may not work
 on Windows.
