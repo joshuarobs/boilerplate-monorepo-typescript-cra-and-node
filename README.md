@@ -1,4 +1,4 @@
-# Boilerplate Mono-repo in TypeScript with create-react-app and Node.js
+# Boilerplate Mono-repo in TypeScript with Create React App and Node.js
 A boilerplate for a fullstack monorepo in TypeScript with Create React App on the client, and Node.js (express) on the server. Uses Lerna for monorepo functionality.
 
 Main technologies in this stack included:
