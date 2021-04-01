@@ -8,20 +8,30 @@ This was created because the above boilerplate:
 2. Doesn't include GitHub Action CI/CD integrations
 3. Doesn't include built-in Heroku deployment configurations
 
+
 # Contents
+- [Boilerplate Mono-repo in TypeScript with Create React App and Node.js](#boilerplate-mono-repo-in-typescript-with-create-react-app-and-nodejs)
+- [Contents](#contents)
 - [Stack and features](#stack-and-features)
 - [Usage](#usage)
-    - [Future usage](#future-usage)
-        - [`yarn build`](#yarn-build)
-        - [`yarn start`](#yarn-start)
-        - [`yarn test`](#yarn-test)
-    - [CI/CD with Heroku](#cicd-with-heroku)
+  - [Future usage](#future-usage)
+    - [`yarn build`](#yarn-build)
+    - [`yarn start`](#yarn-start)
+    - [`yarn test`](#yarn-test)
+    - [How to add npm packages?](#how-to-add-npm-packages)
+      - [Adding an npm package normally in a typical repo](#adding-an-npm-package-normally-in-a-typical-repo)
+      - [Adding an npm package in a lerna monorepo](#adding-an-npm-package-in-a-lerna-monorepo)
+        - [If you want to add a package to a specific sub-repo/package:](#if-you-want-to-add-a-package-to-a-specific-sub-repopackage)
+        - [TODO: If you want to add a package to the monorepo itself](#todo-if-you-want-to-add-a-package-to-the-monorepo-itself)
+    - [How do I fix npm packages in lerna packages?](#how-do-i-fix-npm-packages-in-lerna-packages)
+      - [TODO: What about deleting packages?](#todo-what-about-deleting-packages)
+  - [CI/CD with Heroku](#cicd-with-heroku)
 - [Use cases for this boilerplate](#use-cases-for-this-boilerplate)
 - [Limitations](#limitations)
-    - [1. Uses Lerna and yarn for monorepo functionality](#1-uses-lerna-and-yarn-for-monorepo-functionality)
-    - [2. Heroku can only deploy 1 package](#2-heroku-can-only-deploy-1-package)
-    - [3. TypeScript is required](#3-typescript-is-required)
-    - [4. The build script for the server may fail if on Windows](#4-the-build-script-for-the-server-may-fail-if-on-windows)
+  - [1. Uses Lerna and yarn for monorepo functionality](#1-uses-lerna-and-yarn-for-monorepo-functionality)
+  - [2. Heroku can only deploy 1 package](#2-heroku-can-only-deploy-1-package)
+  - [3. TypeScript is required](#3-typescript-is-required)
+  - [4. The build script for the server may fail if on Windows](#4-the-build-script-for-the-server-may-fail-if-on-windows)
 
 # Stack and features
 
