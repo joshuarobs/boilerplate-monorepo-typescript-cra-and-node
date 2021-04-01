@@ -93,6 +93,82 @@ server reloading is handled by Nodemon.
 ### `yarn test`
 Tests for all the packages can be run at any time with this command.
 
+### How to add npm packages?
+I hardly use yarn to add npm packages, since it may mess with Lerna.
+
+Typically if I want to add a npm package, it's for a single package.
+
+Definition of npm package versus Lerna package:
+1. npm package: A typical npm package that's installed via `npm` or `yarn` in the `node_modules/` folder. If you've worked with node.js before, you already know what this is.
+2. Lerna "package": Basically a sub-repo within this monorepo. These are the folders inside the `project/packages/` folder.
+
+The folder structure for your packages would look something like:
+````
+packages/
+  client/
+  components/
+  server/
+````
+
+So in this example, you have 3 Lerna "packages", or 3 sub-repos. You will normally have hundreds of ordinary npm packages sitting in various `node_modules/` folders throughout the monorepo. There's a `node_modules/` folder in each package/sub-repo, and one in the project root, for the monorepo itself.
+
+#### Adding an npm package normally in a typical repo
+Normally you'd just run `npm install [package-name]` or `yard add [package-name]`. This isn't a typical repo, since this is a monorepo. First, we are using yarn so might as well use yarn for this monorepo. Second, Lerna likes to do most of the management between various packages and their dependencies. It's very messy. That's why we hardly ever want to use the `npm` or `yarn` commands.
+
+Instead we'll be using `lerna`, as described in more detail below.
+
+#### Adding an npm package in a lerna monorepo
+How do we do it? Simply with `lerna add [package-name]`. But that's not good, we want more specific commands:
+
+##### If you want to add a package to a specific sub-repo/package:
+
+`lerna add [package-name] --scope=[@namespace/package]`
+
+The scope is important, as we want to only install a specific npm package into that package/sub-repo.
+
+Where do we get the scope name? It's not the folder name, but instead the `"name"` value inside that package's `package.json` file.
+
+In this monorepo, the name for the client, would be `@namespace/client` or something similar to that.
+
+A full example command would be:
+
+`lerna add lodash --scope=@namespace/client`
+
+You can add the `--dev` flag at the end to add it as a development dependency. It'll get added to the appropriate dev dependency section of the package's `package.json` file.
+
+**Note:** especially with an IDE, you may need to also add the typescript types to the package. But you'll need to run it with the `--dev` flag.
+
+For example:
+
+`lerna add @types/pino --scope=@namespace/server --dev`
+
+
+##### TODO: If you want to add a package to the monorepo itself
+
+I'm pretty sure you have to run `yarn add [package-name]` within the root project directory. It won't let you do it, and it'll ask you to type in the same command again but with some flag. I think it's `-W` or w/e it says. So just add that flag to the command and it'll work.
+
+### How do I fix npm packages in lerna packages?
+Sometimes you just tinker around and end up manually updating the versions in a package's `package.json` file and run `yarn install`. This behaviour may break Lerna and make things buggy.
+
+So how do we fix this? After doing any sort of manual fixing/updating of npm packages, we use the `lerna bootstrap` command.
+
+In a package/sub-repo that you made manual changes to the npm packages in, run:
+
+`lerna bootstrap --scope=[package-name]`
+
+Again, ensure that in the scope field, you enter the package name, which is found in the package's `package.json` file, under the `"name"` field.
+
+A working example command would look like:
+
+`lerna bootstrap --scope=@namespace/client`
+
+This basically runs yarn's install functionality, but also manages lerna's records of the different npm packages, their versions and where they are installed.
+
+You can always run `lerna boostrap` itself without a `--scope` flag, that can work too, and it "fixes" all the packages in the monorepo.
+
+#### TODO: What about deleting packages?
+I can't fully remember at this time of writing, but I think you can just `yarn remove` the package you want, then just run `lerna bootstrap` afterwards to "fix it". Lerna unfortunately doesn't have a `lerna remove` function at this point of time, idk why. See the issue on the lerna repo here: https://github.com/lerna/lerna/issues/1886
+
 ## CI/CD with Heroku
 This project can be automatically deployed on a Heroku application. Simply
 head to your Heroku app, go to the `Deploy` tab, then enable Automatic
