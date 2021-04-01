@@ -22,7 +22,7 @@ This was created because the above boilerplate:
       - [Adding an npm package normally in a typical repo](#adding-an-npm-package-normally-in-a-typical-repo)
       - [Adding an npm package in a lerna monorepo](#adding-an-npm-package-in-a-lerna-monorepo)
         - [If you want to add a package to a specific sub-repo/package:](#if-you-want-to-add-a-package-to-a-specific-sub-repopackage)
-        - [TODO: If you want to add a package to the monorepo itself](#todo-if-you-want-to-add-a-package-to-the-monorepo-itself)
+        - [If you want to add a package to the monorepo itself](#if-you-want-to-add-a-package-to-the-monorepo-itself)
     - [How do I fix npm packages in lerna packages?](#how-do-i-fix-npm-packages-in-lerna-packages)
       - [TODO: What about deleting packages?](#todo-what-about-deleting-packages)
   - [CI/CD with Heroku](#cicd-with-heroku)
