@@ -153,9 +153,15 @@ For example:
 `lerna add @types/pino --scope=@namespace/server --dev`
 
 
-##### TODO: If you want to add a package to the monorepo itself
+##### If you want to add a package to the monorepo itself
 
-I'm pretty sure you have to run `yarn add [package-name]` within the root project directory. It won't let you do it, and it'll ask you to type in the same command again but with some flag. I think it's `-W` or w/e it says. So just add that flag to the command and it'll work.
+You have to run `yarn add [package-name] -W` within the root project directory. If you don't add the `-W` flag, it won't let you do it, and it'll ask you to type in the same command again but with that flag.
+
+Some use cases I used this with are related to configuring `eslint` with the whole repo, such as:
+````
+yarn add eslint-config-airbnb-typescript --dev -W
+yarn add @typescript-eslint/parser --dev -W
+````
 
 ### How do I fix npm packages in lerna packages?
 Sometimes you just tinker around and end up manually updating the versions in a package's `package.json` file and run `yarn install`. This behaviour may break Lerna and make things buggy.
